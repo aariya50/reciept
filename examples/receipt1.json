@@ -1,0 +1,9 @@
+{
+  "vendor": "Sample Vendor",
+  "date": "2023-09-02",
+  "total": 32.1,
+  "items": [
+    {"name": "Coffee", "qty": 2.0, "price": 10.0},
+    {"name": "Sandwich", "qty": 1.0, "price": 12.1}
+  ]
+}
