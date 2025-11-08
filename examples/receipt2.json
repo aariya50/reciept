@@ -1,0 +1,9 @@
+{
+  "vendor": "Another Shop",
+  "date": "2023-09-05",
+  "total": 55.2,
+  "items": [
+    {"name": "Item A", "qty": 1.0, "price": 15.0},
+    {"name": "Item B", "qty": 2.0, "price": 20.1}
+  ]
+}

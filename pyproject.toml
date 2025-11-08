@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=62", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "receipt-ocr"
+version = "0.1.0"
+description = "A pipeline for aligning receipt scans and extracting key fields via OCR"
+authors = [{name = "Example Maintainer", email = "maintainer@example.com"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "pillow",
+    "pytesseract",
+    "python-dateutil"
+]
+
+[project.scripts]
+receipt-ocr = "receipt_ocr.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
