@@ -1,7 +1,10 @@
 __pycache__/
 *.pyc
 .venv/
-data/template.*
+# Ignore generated assets
+data/*.jpg
+data/*.jpeg
+data/*.png
 examples/*.jpg
 examples/*.jpeg
 examples/*.png

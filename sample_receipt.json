@@ -1,0 +1,17 @@
+{
+  "vendor": "Contoso",
+  "date": "2019-06-10",
+  "total": 14.5,
+  "items": [
+    {
+      "name": "1 Cappuccino",
+      "qty": 1.0,
+      "price": 2.2
+    },
+    {
+      "name": "Sunny-side-up",
+      "qty": 1.0,
+      "price": 9.5
+    }
+  ]
+}

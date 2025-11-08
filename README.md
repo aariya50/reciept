@@ -17,7 +17,14 @@ This project provides an end-to-end pipeline that aligns scanned receipts to a c
 
 ## Getting started
 
-1. Install dependencies:
+1. Install system dependencies (required for OpenCV and the Tesseract CLI):
+
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y libgl1 tesseract-ocr
+   ```
+
+2. Install Python dependencies:
 
    ```bash
    python -m venv .venv
@@ -25,20 +32,40 @@ This project provides an end-to-end pipeline that aligns scanned receipts to a c
    pip install -e .
    ```
 
-2. Capture a high-resolution template image (e.g., `data/template.jpg`) by placing a blank sample receipt on a flat surface, ensuring even lighting. Store the file in the `data/` directory—this repository does not ship binary assets by default. Align all subsequent receipts in a similar orientation when scanning or photographing.
+3. Capture a high-resolution template image (e.g., `data/template.jpg`) by placing a blank sample receipt on a flat surface, ensuring even lighting. Store the file in the `data/` directory—this repository does not ship binary assets by default. Align all subsequent receipts in a similar orientation when scanning or photographing.
 
    Similarly, supply your own receipt scans for evaluation in `examples/`; only lightweight JSON annotations are tracked in Git to
    avoid binary file handling issues when opening pull requests.
 
-3. Tune ROIs in `config/roi_config.json` by opening the template in an image editor and measuring the pixel coordinates for each field. Update the JSON file with the `x`, `y`, `w`, and `h` values as well as field-specific Tesseract page segmentation modes (`psm`).
+4. Tune ROIs in `config/roi_config.json` by opening the template in an image editor and measuring the pixel coordinates for each field. Update the JSON file with the `x`, `y`, `w`, and `h` values as well as field-specific Tesseract page segmentation modes (`psm`).
 
-4. Run the pipeline on a receipt:
+5. Run the pipeline on a receipt:
 
    ```bash
    python -m receipt_ocr.cli --image path/to/scan.jpg --config config/roi_config.json --template data/template.jpg --output receipt.json
    ```
 
    The CLI prints or saves the extracted JSON containing `vendor`, `date`, `total`, and an array of `items` with `name`, `qty`, and `price` fields.
+
+### Quick smoke test (downloads required)
+
+A helper script downloads an openly published sample receipt from the [Azure Form Recognizer SDK test corpus](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt). This keeps the Git history binary-free while still offering a reproducible demo.
+
+```bash
+python tools/fetch_sample_receipt.py \
+  --template data/sample_template.jpg \
+  --receipt examples/sample_receipt.jpg
+
+python -m receipt_ocr.cli \
+  --image examples/sample_receipt.jpg \
+  --config config/roi_config.json \
+  --template data/sample_template.jpg \
+  --output sample_receipt.json
+```
+
+The helper downloads the same image for both template and receipt inputs so the default ORB-based alignment succeeds out of the box. Replace these files with your own scans when calibrating ROIs for production usage.
+
+> **Note:** The default `config/roi_config.json` is calibrated for the downloaded Contoso Cafe sample (native resolution 1688×3000). If you swap in a differently sized template, update the canvas dimensions and ROI coordinates accordingly.
 
 ## Evaluation
 
