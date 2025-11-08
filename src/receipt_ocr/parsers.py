@@ -14,7 +14,7 @@ VENDOR_RE = re.compile(r"[^A-Z0-9 &'-]+", re.IGNORECASE)
 DATE_RE = re.compile(r"(\d{1,2})[\-/](\d{1,2})[\-/](\d{2,4})")
 TOTAL_RE = re.compile(r"([\d,.]+)")
 ITEM_LINE_RE = re.compile(
-    r"^(?P<name>.*?)\s+(?P<qty>\d+(?:\.\d+)?)\s+(?P<price>\$?\d+[\.,]\d{2})$"
+    r"^(?P<name>.*?)\s+(?:(?P<qty>\d+(?:\.\d+)?)\s+)?(?P<price>\$?\d+[\.,]\d{1,2})$"
 )
 
 
@@ -35,8 +35,10 @@ class ParsedReceipt:
 
 def clean_vendor(text: str) -> str:
     text = text.strip()
+    text = text.replace("®", "o")
     text = VENDOR_RE.sub(" ", text)
-    return re.sub(r"\s+", " ", text).strip()
+    cleaned = re.sub(r"\s+", " ", text).strip()
+    return re.sub(r"^[^A-Za-z0-9]+", "", cleaned)
 
 
 def parse_date(text: str) -> Optional[str]:
@@ -82,11 +84,14 @@ def parse_items(text: str) -> List[Item]:
         line = raw_line.strip()
         if not line:
             continue
+        if re.search(r"total", line, re.IGNORECASE):
+            continue
         match = ITEM_LINE_RE.match(line)
         if not match:
             continue
         price = float(match.group("price").replace("$", "").replace(",", ""))
-        qty = float(match.group("qty"))
+        qty_text = match.group("qty")
+        qty = float(qty_text) if qty_text else 1.0
         name = match.group("name").strip()
         items.append(Item(name=name, qty=qty, price=price))
     return items

@@ -1,12 +1,12 @@
 {
   "canvas": {
-    "width": 600,
-    "height": 900
+    "width": 1688,
+    "height": 3000
   },
   "rois": {
-    "vendor": {"x": 60, "y": 40, "w": 420, "h": 100, "psm": 7},
-    "date": {"x": 340, "y": 110, "w": 200, "h": 80, "psm": 7},
-    "total": {"x": 300, "y": 720, "w": 260, "h": 120, "psm": 6},
-    "items": {"x": 60, "y": 180, "w": 480, "h": 420, "psm": 6, "preprocess": "adaptive"}
+    "vendor": {"x": 360, "y": 300, "w": 1000, "h": 420, "psm": 7, "preprocess": "adaptive"},
+    "date": {"x": 200, "y": 1150, "w": 450, "h": 220, "psm": 7},
+    "total": {"x": 900, "y": 2500, "w": 600, "h": 400, "psm": 6},
+    "items": {"x": 200, "y": 1500, "w": 1200, "h": 900, "psm": 6, "preprocess": "adaptive"}
   }
 }
